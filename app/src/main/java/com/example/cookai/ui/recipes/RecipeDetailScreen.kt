@@ -10,10 +10,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.cookai.viewModel.RecipeViewModel
 
 @Composable
-fun RecipeDetailScreen(recipeId: Int, navController: NavController
-) {
-    val ViewModel: RecipeViewModel = viewModel()
-    val recipe = ViewModel.getRecipeById(recipeId)
+fun RecipeDetailScreen(recipeId: Int, navController: NavController, viewModel: RecipeViewModel) {
+
+    val recipe = viewModel.getRecipeById(recipeId)
 
 Column(Modifier.padding(16.dp).fillMaxSize()) {
     recipe?.let {
@@ -37,5 +36,13 @@ Column(Modifier.padding(16.dp).fillMaxSize()) {
             )
         }
     } ?: Text("Рецепт не найден")
+    Spacer(Modifier.height(24.dp))
+    Button(onClick = {
+        recipe?.let {
+            viewModel.addXp(it.xp)
+        }
+        navController.popBackStack()
+    }
+    ) {Text("Я приготовил \uD83C\uDF89") }
 }
 }

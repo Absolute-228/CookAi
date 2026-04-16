@@ -13,8 +13,8 @@ import com.example.cookai.viewModel.RecipeViewModel
 
 
 @Composable
-fun RecipeListScreen(navController: NavController){
-    val viewModel: RecipeViewModel = viewModel()
+fun RecipeListScreen(navController: NavController, viewModel: RecipeViewModel){
+
     val recipes = viewModel.getRecipes()
 
     LazyColumn(Modifier.padding(16.dp)

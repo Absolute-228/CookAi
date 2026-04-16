@@ -2,8 +2,11 @@ package com.example.cookai.viewModel
 
 import androidx.lifecycle.ViewModel
 import com.example.cookai.data.model.Recipe
+import com.example.cookai.data.model.User
 
 class RecipeViewModel: ViewModel() {
+
+    var user = User("Игрок", 0, "Новичок")
     private val recipes = listOf(
         Recipe(1, "Омлет","Простой омлет", listOf("Яйца", "Молоко", "Сливочное масло"), listOf("Разбейте яйцо","Перемешай","Обжарить"),"Легко", 10 ),
         Recipe(2, "Салат", "Овощной салат", listOf("Помидоры","Огурцы","Соль"), listOf("Нарежь овощи","Перемешай"),"Легко", 8 ),
@@ -13,6 +16,19 @@ class RecipeViewModel: ViewModel() {
     }
     fun getRecipeById(id: Int): Recipe?{
         return recipes.find { it.id == id }
+    }
+
+    fun addXp(xp: Int){
+        user.xp += xp
+        updateLevel()
+    }
+
+    private fun updateLevel(){
+        user.level = when {
+            user.xp >= 100 -> "Шеф"
+            user.xp >= 50 -> "Повар"
+            else -> "Новичок"
+        }
     }
 
 }
