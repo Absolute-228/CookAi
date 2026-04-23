@@ -16,6 +16,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 fun HomeScreen(navController: NavController, viewModel: RecipeViewModel){
 
     val user = viewModel.user
+    val progress = viewModel.getProgress()
 
     Column(Modifier.padding(16.dp).fillMaxSize(),
         Arrangement.Center,
@@ -30,6 +31,15 @@ fun HomeScreen(navController: NavController, viewModel: RecipeViewModel){
 
         Text("Уровень: ${user.level}")
         Text("XP: ${user.xp}")
+
+        Spacer(Modifier.height(10.dp))
+        Text("Прогресс уровня")
+        LinearProgressIndicator(
+            progress = progress,
+            modifier = Modifier
+                .fillMaxWidth(0.5f)
+                .height(10.dp)
+        )
 
         Spacer(Modifier.height(20.dp))
 

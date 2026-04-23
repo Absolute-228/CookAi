@@ -17,10 +17,21 @@ fun RecipeListScreen(navController: NavController, viewModel: RecipeViewModel){
 
     val recipes = viewModel.getRecipes()
 
-    LazyColumn(Modifier.padding(16.dp)
+
+Column(modifier = Modifier.padding(16.dp)) {
+    Button(onClick = {
+        navController.navigate("home") {
+            popUpTo("home") { inclusive = true }
+        }
+    }) { Text("\uD83C\uDFE0 Главное меню") }
+    Spacer(Modifier.height(10.dp))
+
+    LazyColumn(
+        Modifier.padding(16.dp)
     ) {
-        items(recipes) {recipe ->
-            Card(modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp)
+        items(recipes) { recipe ->
+            Card(
+                modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp)
             ) {
                 Column(Modifier.padding(16.dp)) {
                     Text(text = recipe.title, style = MaterialTheme.typography.titleLarge)
@@ -28,7 +39,7 @@ fun RecipeListScreen(navController: NavController, viewModel: RecipeViewModel){
                     Spacer(Modifier.height(8.dp))
                     Button(onClick = {
                         navController.navigate("recipe_detail/${recipe.id}")
-                    }){
+                    }) {
                         Text("Открыть")
                     }
                 }
@@ -37,5 +48,6 @@ fun RecipeListScreen(navController: NavController, viewModel: RecipeViewModel){
 
         }
     }
+}
 
 }
