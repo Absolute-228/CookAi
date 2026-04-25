@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.cookai.viewModel.RecipeViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.cookai.navigation.Routes
 
 @Composable
 fun HomeScreen(navController: NavController, viewModel: RecipeViewModel){
@@ -29,10 +30,8 @@ fun HomeScreen(navController: NavController, viewModel: RecipeViewModel){
         )
         Spacer(Modifier.height(20.dp))
 
-        Text("Уровень: ${user.level}")
-        Text("XP: ${user.xp}")
 
-        Spacer(Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(10.dp))
         Text("Прогресс уровня")
         LinearProgressIndicator(
             progress = progress,
@@ -41,6 +40,19 @@ fun HomeScreen(navController: NavController, viewModel: RecipeViewModel){
                 .height(10.dp)
         )
 
+        Spacer(modifier = Modifier.height(20.dp))
+        Text("Достижения")
+        viewModel.achievements.forEach { achievement ->
+            Text(
+                text = if (achievement.unlocked)
+                "✅ ${achievement.title}"
+                else
+                    "🔒 ${achievement.title}"
+            )
+        }
+
+
+
         Spacer(Modifier.height(20.dp))
 
         Button(onClick = {
@@ -48,7 +60,11 @@ fun HomeScreen(navController: NavController, viewModel: RecipeViewModel){
         }) {Text("Перейти к рецептам") }
 
 
-
+        Button(onClick = {
+            navController.navigate(Routes.PROFILE)
+        }) {
+            Text("Профиль")
+        }
 
 
     }

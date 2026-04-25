@@ -8,5 +8,6 @@ data class UserEntity(
     @PrimaryKey val id: Int = 0,
     val name: String,
     val xp: Int,
-    val level: String
+    val level: String,
+    val cookedCount: Int
 )
