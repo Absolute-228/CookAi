@@ -27,7 +27,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         val userDao = db.userDao()
         setContent {
-            AppNavigation(userDao)
+            CookAiTheme {
+                AppNavigation(userDao)
+        }
         }
     }
 }

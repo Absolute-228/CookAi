@@ -16,8 +16,7 @@ class RecipeViewModel(private val userDao: UserDao): ViewModel() {
 
     var user by mutableStateOf<UserEntity?>(null)
         private set
-    var cookedCount by mutableStateOf(0)
-        private set
+
     var achievements by mutableStateOf(
         listOf(
             Achievement("Первый шаг", "Приготовить 1 блюдо", false),
@@ -26,9 +25,175 @@ class RecipeViewModel(private val userDao: UserDao): ViewModel() {
         )
     )
     private val recipes = listOf(
-        Recipe(1, "Омлет","Простой омлет", listOf("Яйца", "Молоко", "Сливочное масло"), listOf("Разбейте яйцо","Перемешай","Обжарить"),"Легко", 10 ),
-        Recipe(2, "Салат", "Овощной салат", listOf("Помидоры","Огурцы","Соль"), listOf("Нарежь овощи","Перемешай"),"Легко", 8 ),
+        Recipe(
+            id = 1,
+            title = "Омлет",
+            description = "Простой омлет на завтрак",
+            ingredients = listOf("Яйца", "Молоко", "Соль", "Сливочное масло"),
+            steps = listOf(
+                "Разбей яйца в миску",
+                "Добавь молоко и соль",
+                "Хорошо перемешай",
+                "Разогрей сковороду",
+                "Обжарь омлет 3–4 минуты"
+            ),
+            difficulty = "Легко",
+            xp = 10,
+            cookingTime = 10,
+            calories = 250,
+            tips = listOf(
+                "Не включай слишком сильный огонь",
+                "Чтобы омлет был мягким, не пережаривай его"
+            )
+        ),
+        Recipe(
+            id = 2,
+            title = "Овощной салат",
+            description = "Лёгкий салат из свежих овощей",
+            ingredients = listOf("Помидоры", "Огурцы", "Соль", "Оливковое масло"),
+            steps = listOf(
+                "Помой овощи",
+                "Нарежь помидоры и огурцы",
+                "Добавь соль",
+                "Заправь маслом",
+                "Перемешай"
+            ),
+            difficulty = "Легко",
+            xp = 8,
+            cookingTime = 7,
+            calories = 120,
+            tips = listOf(
+                "Солить лучше перед подачей",
+                "Можно добавить зелень для вкуса"
+            )
+        ),
+        Recipe(
+            id = 3,
+            title = "Паста с сыром",
+            description = "Простая паста с сыром",
+            ingredients = listOf("Паста", "Сыр", "Соль", "Сливочное масло"),
+            steps = listOf(
+                "Вскипяти воду",
+                "Добавь соль",
+                "Отвари пасту 8–10 минут",
+                "Слей воду",
+                "Добавь масло и сыр"
+            ),
+            difficulty = "Средне",
+            xp = 20,
+            cookingTime = 15,
+            calories = 420,
+            tips = listOf(
+                "Не переваривай пасту",
+                "Оставь немного воды от пасты для соуса"
+            )
+        ),
+        Recipe(
+            id = 4,
+            title = "Куриный суп",
+            description = "Домашний суп с курицей",
+            ingredients = listOf("Курица", "Картофель", "Морковь", "Лук", "Соль"),
+            steps = listOf(
+                "Промой курицу",
+                "Поставь воду на огонь",
+                "Добавь курицу",
+                "Нарежь овощи",
+                "Вари суп 35–40 минут"
+            ),
+            difficulty = "Средне",
+            xp = 30,
+            cookingTime = 45,
+            calories = 350,
+            tips = listOf(
+                "Снимай пену при варке",
+                "Добавляй соль ближе к концу приготовления"
+            )
+        ),
+        Recipe(
+            id = 5,
+            title = "Блины",
+            description = "Домашние тонкие блины",
+            ingredients = listOf("Мука", "Яйца", "Молоко", "Сахар", "Соль"),
+            steps = listOf(
+                "Смешай яйца, молоко и сахар",
+                "Добавь муку",
+                "Перемешай до однородности",
+                "Разогрей сковороду",
+                "Жарь блины по 1–2 минуты с каждой стороны"
+            ),
+            difficulty = "Средне",
+            xp = 25,
+            cookingTime = 25,
+            calories = 500,
+            tips = listOf(
+                "Тесто должно быть без комочков",
+                "Сковороду лучше хорошо разогреть перед первым блином"
+            )
+        ),
+        Recipe(
+            id = 6,
+            title = "Рис с овощами",
+            description = "Полезное блюдо на каждый день",
+            ingredients = listOf("Рис", "Морковь", "Перец", "Лук", "Соль"),
+            steps = listOf(
+                "Промой рис",
+                "Отвари рис",
+                "Нарежь овощи",
+                "Обжарь овощи",
+                "Смешай рис с овощами"
+            ),
+            difficulty = "Легко",
+            xp = 15,
+            cookingTime = 20,
+            calories = 300,
+            tips = listOf(
+                "Промывай рис до прозрачной воды",
+                "Овощи лучше не пережаривать"
+            )
+        ),
+        Recipe(
+            id = 7,
+            title = "Жареный картофель",
+            description = "Классический жареный картофель",
+            ingredients = listOf("Картофель", "Масло", "Соль", "Лук"),
+            steps = listOf(
+                "Очисти картофель",
+                "Нарежь ломтиками",
+                "Разогрей масло",
+                "Жарь картофель 15–20 минут",
+                "Добавь соль в конце"
+            ),
+            difficulty = "Легко",
+            xp = 12,
+            cookingTime = 25,
+            calories = 430,
+            tips = listOf(
+                "Не мешай картофель слишком часто",
+                "Соль добавляй в конце, чтобы картофель был хрустящим"
+            )
+        ),
+        Recipe(
+            id = 8,
+            title = "Сырные тосты",
+            description = "Быстрые горячие тосты",
+            ingredients = listOf("Хлеб", "Сыр", "Масло"),
+            steps = listOf(
+                "Намажь хлеб маслом",
+                "Положи сыр",
+                "Разогрей сковороду",
+                "Обжарь тосты до золотистой корочки"
+            ),
+            difficulty = "Легко",
+            xp = 5,
+            cookingTime = 8,
+            calories = 280,
+            tips = listOf(
+                "Используй сыр, который хорошо плавится",
+                "Не ставь слишком сильный огонь"
+            )
+        )
     )
+
     fun getRecipes(): List<Recipe>{
         return recipes
     }
@@ -74,13 +239,6 @@ class RecipeViewModel(private val userDao: UserDao): ViewModel() {
         }
     }
 
-    private fun updateLevel(xp: Int): String{
-        return  when {
-            xp >= 100 -> "Шеф"
-            xp >= 50 -> "Повар"
-            else -> "Новичок"
-        }
-    }
 
 
     init {
@@ -92,6 +250,9 @@ class RecipeViewModel(private val userDao: UserDao): ViewModel() {
             val savedUser = userDao.getUser()
 
             user = savedUser
+            savedUser?.let {
+                checkAchievements(it.cookedCount)
+            }
         }
     }
 

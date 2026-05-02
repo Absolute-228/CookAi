@@ -7,5 +7,8 @@ data class Recipe(
     val ingredients: List<String>,
     val steps: List<String>,
     val difficulty: String,
-    val xp: Int
+    val xp: Int,
+    val cookingTime: Int,
+    val calories: Int,
+    val tips: List<String>
 )
