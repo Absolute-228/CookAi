@@ -5,4 +5,5 @@ object Routes {
     const val RECIPES = "recipes"
     const val RECIPES_DETAIL = "recipe_detail"
     const val PROFILE = "profile"
+    const val AI_CHEF = "ai_chef"
 }

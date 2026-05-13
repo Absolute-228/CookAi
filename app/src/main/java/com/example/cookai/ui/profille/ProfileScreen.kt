@@ -56,8 +56,8 @@ fun ProfileScreen(
                 )
 
                 Spacer(Modifier.height(8.dp))
-                Text("Уровень: ${user?.level}", color = MaterialTheme.colorScheme.onPrimaryContainer)
-                Text("XP: ${user?.xp}", color = MaterialTheme.colorScheme.onPrimaryContainer)
+                Text("Уровень: ${user?.level}", color = MaterialTheme.colorScheme.onSurface)
+                Text("XP: ${user?.xp}", color = MaterialTheme.colorScheme.onSurface)
             }
         }
 

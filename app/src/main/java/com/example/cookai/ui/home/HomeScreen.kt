@@ -66,6 +66,11 @@ fun HomeScreen(navController: NavController, viewModel: RecipeViewModel){
             Text("Профиль")
         }
 
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(onClick = {
+            navController.navigate(Routes.AI_CHEF)
+        }) { Text("AI-шеф \uD83E\uDD16")}
 
     }
 }

@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.*
 import com.example.cookai.data.local.UserDao
+import com.example.cookai.ui.ai.AiChefScreen
 import com.example.cookai.ui.auth.RegisterScreen
 import com.example.cookai.ui.home.HomeScreen
 import com.example.cookai.ui.navigation.BottomBar
@@ -61,6 +62,9 @@ fun AppNavigation(userDao: UserDao) {
                 }
                 composable(Routes.PROFILE) {
                     ProfileScreen(navController, viewModel)
+                }
+                composable(Routes.AI_CHEF){
+                    AiChefScreen(navController, viewModel)
                 }
             }
         }

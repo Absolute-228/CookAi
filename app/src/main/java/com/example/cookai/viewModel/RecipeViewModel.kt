@@ -6,11 +6,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.node.DelegatableNode
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.cookai.data.local.UserDao
 import com.example.cookai.data.local.UserEntity
 import com.example.cookai.data.model.Recipe
 import kotlinx.coroutines.launch
 import com.example.cookai.data.model.Achievement
+import com.example.cookai.data.remote.AiRequest
+import com.example.cookai.data.remote.RetrofitInstance
+import org.w3c.dom.Text
 
 class RecipeViewModel(private val userDao: UserDao): ViewModel() {
 
@@ -194,6 +198,27 @@ class RecipeViewModel(private val userDao: UserDao): ViewModel() {
         )
     )
 
+    var searchQuery by mutableStateOf("")
+        private set
+    fun updateSearchQuery(query: String){
+        searchQuery = query
+    }
+    fun getFilteredRecipes(): List<Recipe>{
+        if (searchQuery.isBlank()) {
+            return recipes
+        }
+        return recipes.filter { recipe ->
+            recipe.title.contains(searchQuery, ignoreCase = true) ||
+            recipe.description.contains(searchQuery, ignoreCase = true) ||
+            recipe.ingredients.any{ ingredient ->
+                ingredient.contains(searchQuery, ignoreCase = true)
+            }
+        }
+    }
+
+
+
+
     fun getRecipes(): List<Recipe>{
         return recipes
     }
@@ -284,4 +309,70 @@ class RecipeViewModel(private val userDao: UserDao): ViewModel() {
         }
     }
 
+
+    fun generateRecipeAdvice(ingredientsText: String): String {
+        val ingredients = ingredientsText
+            .lowercase()
+            .split(",", " ")
+            .map { it.trim() }
+            .filter { it.isNotBlank() }
+
+        if (ingredients.isEmpty()) {
+            return "Введите хотя бы один продукт"
+        }
+
+        val matchRecipes = recipes.filter { recipe ->
+            recipe.ingredients.any { ingredient ->
+                ingredients.any { userIngredient ->
+                    ingredient.lowercase().contains(userIngredient) ||
+                            userIngredient.contains(ingredient.lowercase())
+                }
+            }
+        }
+
+        if (matchRecipes.isEmpty()) {
+            return "Я не нашёл точный рецепт, но можно попробовать приготовить простое блюдо из: $ingredientsText."
+        }
+
+        val bestRecipe = matchRecipes.maxBy { recipe ->
+            recipe.ingredients.count { ingredient ->
+                ingredients.any { userIngredient ->
+                    ingredient.lowercase().contains(userIngredient) ||
+                            userIngredient.contains(ingredient.lowercase())
+                }
+            }
+        }
+
+        return """
+            Я рекомендую: ${bestRecipe.title}
+        
+        Описание: ${bestRecipe.description}
+        Сложность: ${bestRecipe.difficulty}
+        Время: ${bestRecipe.cookingTime} мин
+        XP за приготовление: ${bestRecipe.xp}
+        
+        Совет AI-шефа: начни с простого рецепта и внимательно следуй шагам приготовления.
+    """.trimIndent()
+
+
+
+
+    }
+    var aiResult by mutableStateOf("")
+    fun generateAiRecipe(ingredients: String){
+        viewModelScope.launch {
+            try {
+                val responce = RetrofitInstance.api.generateRecipe(
+                    AiRequest(
+                        ingredients = ingredients,
+                        preferences = "быстро и просто"
+                    )
+                )
+                aiResult = responce.result
+            } catch (e: Exception){
+                aiResult = "Ошибка подключение AI"
+
+            }
+        }
+    }
 }
